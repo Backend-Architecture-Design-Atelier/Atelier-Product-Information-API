@@ -13,7 +13,6 @@ pool.connect();
 
 pool.query('SELECT NOW()', (err, res) => {
   console.log(err, res);
-  pool.end();
 });
 
 // const client = new Client({
