@@ -60,4 +60,3 @@ COPY styles FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/styles.c
 COPY photos FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/photos.csv' DELIMITER ',' CSV Header;
 COPY skus FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/skus.csv' DELIMITER ',' CSV Header;
 COPY related FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/related.csv' DELIMITER ',' CSV Header;
-
