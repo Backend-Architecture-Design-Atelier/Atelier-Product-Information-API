@@ -16,7 +16,7 @@ CREATE TABLE product (
 DROP TABLE IF EXISTS features CASCADE;
 CREATE TABLE features (
   id SERIAL PRIMARY KEY,
-  product_id INT REFERENCES products(id),
+  product_id INT REFERENCES product(id),
   feature VARCHAR(50) NOT NULL,
   value VARCHAR(50)
 );
@@ -24,7 +24,7 @@ CREATE TABLE features (
 DROP TABLE IF EXISTS styles CASCADE;
 CREATE TABLE styles (
   id SERIAL PRIMARY KEY,
-  productId INT REFERENCES products(id),
+  productId INT REFERENCES product(id),
   name VARCHAR(50) NOT NULL,
   sale_price VARCHAR(20),
   original_price VARCHAR(30) NOT NULL,
@@ -50,14 +50,14 @@ CREATE TABLE skus (
 DROP TABLE IF EXISTS related CASCADE;
 CREATE TABLE related (
   id SERIAL PRIMARY KEY,
-  current_product_id INT REFERENCES products(id),
+  current_product_id INT REFERENCES product(id),
   related_product_id INT NOT NULL
 );
 
-COPY features FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/features.csv' DELIMITER ',' CSV Header;
-COPY photos FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/photos.csv' DELIMITER ',' CSV Header;
 COPY product FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/product.csv' DELIMITER ',' CSV Header;
-COPY related FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/related.csv' DELIMITER ',' CSV Header;
-COPY skus FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/skus.csv' DELIMITER ',' CSV Header;
+COPY features FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/features.csv' DELIMITER ',' CSV Header;
 COPY styles FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/styles.csv' DELIMITER ',' CSV Header;
+COPY photos FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/photos.csv' DELIMITER ',' CSV Header;
+COPY skus FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/skus.csv' DELIMITER ',' CSV Header;
+COPY related FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/related.csv' DELIMITER ',' CSV Header;
 
