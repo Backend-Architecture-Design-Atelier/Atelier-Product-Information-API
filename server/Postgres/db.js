@@ -11,9 +11,11 @@ const pool = new Pool({
 
 pool.connect();
 
-pool.query('SELECT NOW()', (err, res) => {
-  console.log(err, res);
-});
+module.exports = pool;
+
+// pool.query('SELECT NOW()', (err, res) => {
+//   console.log(err, res);
+// });
 
 // const client = new Client({
 //   user: process.env.USERNAME,
