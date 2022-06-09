@@ -6,7 +6,7 @@ const pool = new Pool({
   host: process.env.HOST,
   database: process.env.DB_NAME,
   password: process.env.PASSWORD,
-  port: process.env.PORT,
+  port: process.env.DEFAULTPORT, // 3000 is seperate from the postgres port
 });
 
 pool.connect();

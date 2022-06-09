@@ -1,48 +1,50 @@
-DROP DATABASE IF EXISTS AtelierProducts;
-CREATE DATABASE AtelierProducts;
+DROP DATABASE IF EXISTS atelierproducts WITH (FORCE);
+CREATE DATABASE atelierproducts;
+
+\c atelierproducts;
 
 DROP TABLE IF EXISTS product CASCADE;
-CREATE TABLE products (
+CREATE TABLE product (
   id SERIAL PRIMARY KEY,
-  product_name VARCHAR NOT NULL,
-  product_slogan VARCHAR NOT NULL,
-  product_description TEXT NOT NULL,
-  product_category VARCHAR NOT NULL,
-  default_price VARCHAR NOT NULL
+  name VARCHAR(50) NOT NULL,
+  slogan VARCHAR(250) NOT NULL,
+  description TEXT NOT NULL,
+  category VARCHAR(100) NOT NULL,
+  default_price VARCHAR(30) NOT NULL
 );
 
 DROP TABLE IF EXISTS features CASCADE;
 CREATE TABLE features (
   id SERIAL PRIMARY KEY,
   product_id INT REFERENCES products(id),
-  product_feature VARCHAR NOT NULL,
-  product_value VARCHAR NOT NULL
+  feature VARCHAR(50) NOT NULL,
+  value VARCHAR(50)
 );
 
 DROP TABLE IF EXISTS styles CASCADE;
 CREATE TABLE styles (
   id SERIAL PRIMARY KEY,
-  product_id INT REFERENCES products(id),
-  product_name VARCHAR NOT NULL,
-  sale_price VARCHAR,
-  original_price VARCHAR NULL,
+  productId INT REFERENCES products(id),
+  name VARCHAR(50) NOT NULL,
+  sale_price VARCHAR(20),
+  original_price VARCHAR(30) NOT NULL,
   default_style BOOLEAN NOT NULL
 );
 
-DROP TABLE IF EXISTS images CASCADE;
-CREATE TABLE images (
+DROP TABLE IF EXISTS photos CASCADE;
+CREATE TABLE photos (
   id SERIAL PRIMARY KEY,
-  style_id INT REFERENCES styles(id),
-  image_url TEXT,
+  styleId INT REFERENCES styles(id),
+  url TEXT,
   thumbnail_url TEXT
 );
 
 DROP TABLE IF EXISTS skus CASCADE;
 CREATE TABLE skus (
   id SERIAL PRIMARY KEY,
-  style_id INT REFERENCES styles(id),
-  sku_size TEXT,
-  sku_quantity TEXT
+  styleId INT REFERENCES styles(id),
+  size VARCHAR NOT NULL,
+  quantity VARCHAR NOT NULL
 );
 
 DROP TABLE IF EXISTS related CASCADE;
@@ -51,3 +53,11 @@ CREATE TABLE related (
   current_product_id INT REFERENCES products(id),
   related_product_id INT NOT NULL
 );
+
+COPY features FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/features.csv' DELIMITER ',' CSV Header;
+COPY photos FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/photos.csv' DELIMITER ',' CSV Header;
+COPY product FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/product.csv' DELIMITER ',' CSV Header;
+COPY related FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/related.csv' DELIMITER ',' CSV Header;
+COPY skus FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/skus.csv' DELIMITER ',' CSV Header;
+COPY styles FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/styles.csv' DELIMITER ',' CSV Header;
+
