@@ -11,8 +11,4 @@ router.get('/:product_id/styles', controller.getProductStyles);
 
 router.get('/:product_id/related', controller.getRelatedProducts);
 
-router.get(`/${process.env.LOADER}`, (req, res) => {
-  res.send(`${process.env.LOADER}`)
-})
-
 module.exports = router;
