@@ -13,6 +13,8 @@ CREATE TABLE product (
   default_price VARCHAR(30) NOT NULL
 );
 
+CREATE INDEX CONCURRENTLY product_id_index ON product USING HASH (id);
+
 DROP TABLE IF EXISTS features CASCADE;
 CREATE TABLE features (
   id SERIAL PRIMARY KEY,
@@ -20,6 +22,8 @@ CREATE TABLE features (
   feature VARCHAR(50) NOT NULL,
   value VARCHAR(50)
 );
+
+CREATE INDEX CONCURRENTLY features_product_id_index ON features USING HASH (product_id);
 
 DROP TABLE IF EXISTS styles CASCADE;
 CREATE TABLE styles (
@@ -31,6 +35,8 @@ CREATE TABLE styles (
   default_style BOOLEAN NOT NULL
 );
 
+CREATE INDEX CONCURRENTLY styles_productId_index ON styles USING HASH (productId);
+
 DROP TABLE IF EXISTS photos CASCADE;
 CREATE TABLE photos (
   id SERIAL PRIMARY KEY,
@@ -38,6 +44,8 @@ CREATE TABLE photos (
   url TEXT,
   thumbnail_url TEXT
 );
+
+CREATE INDEX CONCURRENTLY photos_styleId_index ON photos USING HASH (styleId);
 
 DROP TABLE IF EXISTS skus CASCADE;
 CREATE TABLE skus (
@@ -47,12 +55,16 @@ CREATE TABLE skus (
   quantity VARCHAR NOT NULL
 );
 
+CREATE INDEX CONCURRENTLY skus_styleId_index ON skus USING HASH (styleId);
+
 DROP TABLE IF EXISTS related CASCADE;
 CREATE TABLE related (
   id SERIAL PRIMARY KEY,
   current_product_id INT REFERENCES product(id),
   related_product_id INT NOT NULL
 );
+
+CREATE INDEX CONCURRENTLY related_current_product_id_index ON related USING HASH (current_product_id);
 
 COPY product FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/product.csv' DELIMITER ',' CSV Header;
 COPY features FROM '/Users/hansolo/HackReactor 2204/SDC/SDC-Products/Data/features.csv' DELIMITER ',' CSV Header;

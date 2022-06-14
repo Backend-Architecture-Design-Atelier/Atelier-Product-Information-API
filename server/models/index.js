@@ -4,7 +4,7 @@ const getProductList = (page = 1, count = 5, callback) => {
   const query = {
     text: 'SELECT * FROM product ORDER BY id limit $1 OFFSET $2',
     values: [count, (page * count - count)],
-  }
+  };
   pool.query(query, (err, result) => {
     if (err) {
       callback(err);
@@ -32,15 +32,15 @@ const getProductFeatures = (product_id, callback) => {
           WHERE product_id = p.id
         ) as features
       )
-    ) as product
-    FROM product p WHERE id=$1`,
+    ) as productfeatures
+    FROM product p WHERE id = $1`,
     values: [product_id],
-  }
+  };
   pool.query(query, (err, result) => {
     if (err) {
       callback(err);
     } else {
-      callback(null, result.rows[0].product);
+      callback(null, result.rows[0].productfeatures);
     }
   });
 };
@@ -79,14 +79,14 @@ const getProductStyles = (product_id, callback) => {
         FROM styles where styles.productId = product.id
         ) AS styles
       )
-    ) AS product FROM product WHERE id = $1`,
+    ) AS productstyles FROM product WHERE id = $1`,
     values: [product_id],
-  }
+  };
   pool.query(query, (err, result) => {
     if (err) {
       callback(err);
     } else {
-      callback(null, result.rows);
+      callback(null, result.rows[0].productstyles);
     }
   });
 };
@@ -95,7 +95,7 @@ const getRelatedProducts = (product_id, callback) => {
   const query = {
     text: 'SELECT json_agg(related_product_id) as related FROM related WHERE current_product_id = $1',
     values: [product_id],
-  }
+  };
   pool.query(query, (err, result) => {
     if (err) {
       callback(err);
