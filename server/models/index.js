@@ -24,8 +24,7 @@ const getProductFeatures = (product_id, callback) => {
       category,
       default_price,
       'features', (SELECT coalesce(json_agg(features), '[]'::json)
-        FROM (SELECT feature, value FROM features WHERE product_id = $1)
-        as features
+        FROM (SELECT feature, value FROM features WHERE product_id = $1) as features
       )
     ) as productfeatures
     FROM product WHERE id = $1`,
@@ -52,21 +51,12 @@ const getProductStyles = (product_id, callback) => {
           sale_price,
           default_style AS "default?",
           (SELECT json_agg(photos) AS photos
-            FROM (SELECT
-              thumbnail_url,
-              url
-              FROM photos WHERE styleId = styles.id
-            ) AS photos
-          ),
+            FROM (SELECT thumbnail_url, url
+            FROM photos WHERE styleId = styles.id) AS photos),
           (SELECT json_object_agg(
-              id,
-              json_build_object(
-                quantity,
-                size
-              )
-            ) FROM skus WHERE skus.styleId = styles.id
-          ) AS skus
-        FROM styles where styles.productId = product.id
+              id, json_build_object(quantity,size)
+          ) FROM skus WHERE skus.styleId = styles.id
+          ) AS skus FROM styles where styles.productId = $1
         ) AS styles
       )
     ) AS productstyles FROM product WHERE id = $1`,
