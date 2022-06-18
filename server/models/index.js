@@ -2,8 +2,8 @@ const pool = require('../Postgres/db.js');
 
 const getProductList = (page = 1, count = 5, callback) => {
   const query = {
-    text: 'SELECT * FROM product ORDER BY id limit $1 OFFSET $2',
-    values: [count, (page * count - count)],
+    text: 'SELECT * FROM product WHERE id > $1 ORDER BY id limit $2',
+    values: [count * (page - 1), count],
   };
   pool.query(query, (err, result) => {
     if (err) {
